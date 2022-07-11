@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="./css/style.css"/>
+    <script src='https://unpkg.com/tesseract.js@v2.0.2/dist/tesseract.min.js'></script>
+    <script src="./js/tailor-draw.js"></script>
+    <style>
+        p {
+            margin-left: 5px;
+        }
+
+        .high {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+<div style="margin-top: 50px;">
+    <div class="container">
+<!--        <button onclick="editStatus()" id="btn-edit" style="margin-left: 205px">Draw</button>-->
+        <button onclick="editStatus()" id="btn-edit" style="font-size:20px; margin-left: 205px; transform: scale(-1, 1);">✎</button>
+        <span id="wt" style="display: none; margin-left: 205px">wait...</span>
+        <div id="name-holder" class="navi"
+             style="width: 200px;height: 300px; border: 1px solid; overflow: auto; display: inline-block;"></div>
+        <div id="can-holder" class="infoi" style="display: none">
+            <canvas id="can" width="200" height="200" style=""></canvas>
+            <input type="button" value="clear" size="23" onclick="reset()" style="">
+        </div>
+    </div>
+</div>
+</body>
+<script>
+
+    const NAMES = [
+        'joey',
+        'aurelio',
+        'evan',
+        'donny',
+        'foster',
+        'dwayne',
+        'grady',
+        'quinton',
+        'darin',
+        'mickey',
+        'hank',
+        'kim',
+        'peter',
+        'jeremy',
+        'jess',
+        'jimmie',
+        'vern',
+        'pasquale',
+        'romeo',
+        'chris',
+        'dale',
+        'beau',
+        'cliff',
+        'timothy',
+        'raphael',
+        'brain',
+        'mauro',
+        'luke',
+        'myron',
+        'omar',
+        'reynaldo',
+        'major',
+        'clinton',
+        'nolan',
+        'raymond',
+        'lucien',
+        'carey',
+        'winfred',
+        'dan',
+        'abel',
+        'elliott',
+        'brent',
+        'chuck',
+        'dirk',
+        'tod',
+        'emerson',
+        'dewey',
+        'scot',
+        'enrique',
+        'al',
+        'beatrice',
+        'brandy',
+        'kathy',
+        'jane',
+        'marcy',
+        'shelly',
+        'lucy',
+        'cathy',
+        'joanna',
+        'doris',
+        'lindsay',
+        'staci',
+        'shelia',
+        'rosanne',
+        'rebecca',
+        'luz',
+        'flora',
+        'rosalie',
+        'karla',
+        'phoebe',
+        'meagan',
+        'virginia',
+        'amanda',
+        'katy',
+        'karla',
+        'deanne',
+        'pearl',
+        'christi',
+        'victoria',
+        'ola',
+        'alexandra',
+        'marina',
+        'lorraine',
+        'sybil',
+        'adeline',
+        'taylor',
+        'anita',
+        'aurora',
+        'neva',
+        'alisha',
+        'maria',
+        'erna',
+        'gwendolyn',
+        'brenda',
+        'bethany',
+        'sybil',
+        'earline',
+        'june',
+        'brandy',
+        'sue',
+    ];
+
+    const wt = document.getElementById('wt');
+    const btnEdit = document.getElementById('btn-edit');
+    const canHolder = document.getElementById('can-holder');
+    function editStatus(start = true) {
+        dt.erase(false);
+        canHolder.style.display = start ? 'block' : 'none';
+        btnEdit.style.display = start ? 'none' : 'block';
+    }
+
+    const dt = new TailorDraw();
+
+    fill();
+
+    window.addEventListener('load', async function (event) {
+        dt.init({
+            canvasId: 'can',
+            penColor: 'black',
+            minusX: 10,
+            minusY: 50
+        });
+
+        const tWorker = Tesseract.createWorker();
+        await tWorker.loadLanguage('eng');
+    });
+
+    dt.onBeforeStartDraw((e) => {
+        dt.erase(false);
+    })
+
+    dt.onFinishDraw((e) => {
+        wt.style.display = 'block';
+        Tesseract.recognize(
+            dt.getImageData(),
+            'eng',
+        ).then(data => {
+            wt.style.display = 'none';
+            editStatus(false);
+            let {data: {text}} = data;
+            text = text.replace('\n', '').toLowerCase();
+            console.log('=========text', `(${text})`);
+            fill(text);
+        })
+    });
+
+    function reset() {
+        fill();
+        dt.erase(false);
+    }
+
+    function fill(str) {
+        const fillDiv = document.getElementById('name-holder');
+        let html = '';
+        if (str) {
+            html = NAMES.filter(name => name.charAt(0) === str).map(name => {
+                const txt = `<span class="high">${str}</span>${name.substring(1)}`;
+                return `<p>${txt}</p>`
+            }).join('');
+        } else {
+            html = NAMES.map(name => `<p>${name}</p>`).join('');
+        }
+        fillDiv.innerHTML = html;
+    }
+</script>
+</html>

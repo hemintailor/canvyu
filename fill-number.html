@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="./css/style.css"/>
+    <script src='https://unpkg.com/tesseract.js@v2.0.2/dist/tesseract.min.js'></script>
+    <script src="./js/tailor-draw.js"></script>
+    <style>
+        p {
+            margin-left: 5px;
+        }
+
+        .high {
+            background-color: yellow;
+        }
+    </style>
+</head>
+<body>
+<div style="margin-top: 50px;">
+    <div class="container">
+        <div class="navi">
+            <span>Quantity</span>
+            <input class="number-arrow" type="number" id="inp-number" style="font-size: 25px;width: 140px;padding: 0 5px; margin-top: 80px">
+        </div>
+        <div id="can-holder2" class="infoi" style="display: none">
+            <canvas id="can2" width="200" height="200" style=""></canvas>
+            <input type="button" value="clear" id="clr" size="23" onclick="reset2()" style="">
+        </div>
+    </div>
+    <button onclick="editStatus2()" id="btn-edit2" style="font-size:20px;margin-left: 215px; margin-top: 80px; transform: scale(-1, 1);">✎</button>
+    <span id="wt2" style="display: none; margin-left: 205px; margin-top: 80px">wait...</span>
+</div>
+</body>
+
+<script>
+
+    const wt2 = document.getElementById('wt2');
+    const btnEdit2 = document.getElementById('btn-edit2');
+    const canHolder2 = document.getElementById('can-holder2');
+    function editStatus2(start = true) {
+        dt2.erase(false);
+        canHolder2.style.display = start ? 'block' : 'none';
+        btnEdit2.style.display = start ? 'none' : 'inline-block';
+    }
+
+    const dt2 = new TailorDraw();
+
+    window.addEventListener('load', async function (event) {
+        dt2.init({
+            canvasId: 'can2',
+            penColor: 'black',
+            minusX: 10,
+            minusY: 50
+        });
+    });
+
+    dt2.onBeforeStartDraw((e) => {
+        dt2.erase(false);
+    })
+
+    dt2.onFinishDraw((e) => {
+        wt2.style.display = 'block';
+        Tesseract.recognize(
+            dt2.getImageData(),
+            'eng',
+        ).then(data => {
+            wt2.style.display = 'none';
+            editStatus2(false);
+            let {data: {text}} = data;
+            text = text.replace('\n', '').toLowerCase();
+            console.log('==================texttt', `(${text})`);
+            if (!isNaN(text)) {
+                const inp = document.getElementById('inp-number');
+                inp.value = text;
+            }
+        })
+    });
+
+    function reset2() {
+        dt2.erase(false);
+    }
+</script>
+</html>

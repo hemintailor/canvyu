@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="./css/style.css"/>
+    <style>
+
+        ul {
+            padding: 0;
+            list-style-type: none;
+        }
+
+        li {
+            border: 1px solid;
+            padding: 4px 0px;
+            margin: 10px 0;
+        }
+
+        li.active {
+            background-color: antiquewhite;
+        }
+
+        .chkbx {
+            margin: 3px 5px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div id="can-holder" class="navi noselect">
+        <p>It will display status Click when you hold mouse click or keep touched on screen, and display Released when you release mouse click
+        <br/><span id="spn-status"><u>Mouse Status :- <b>Released / UnTap</b></u></span></p>
+        <input type="button" value="clear" size="23" onclick="reset()" style="">
+    </div>
+    <div id="fill-holder" class="infoi"
+         style="width: 425px;display: inline-block;margin-left: 350px;margin-top: 45px;"></div>
+</div>
+</body>
+<script>
+
+    const LISTS = [
+        'joey aurelio evan donny foster',
+        'dwayne grad quinton dari mickey',
+        'hank ki peter jerem jess jimmi vern',
+        'pasquale rome chris dal beau cliff',
+        'timothy raphae brain mauro',
+        'luke myro omar reynald major clinto nolan',
+        'raymond lucie carey winfre dan',
+        'abel elliot brent chuc dirk tod',
+        'emerson dewe scot enrique',
+        'al beatric brandy kathy',
+        'jane marc shelly',
+        'lucy cath joanna dori lindsay staci',
+        'shelia rosann rebecca luz',
+        'flora rosali karla phoeb meagan',
+        'virginia amand katy karl deanne pear christi',
+        'victoria ol alexandra marin lorraine sybi adeline',
+        'taylor anit aurora nev alisha maria',
+        'erna gwendoly brenda bethany',
+        'sybil earlin june brand sue',
+    ];
+
+    let mDown = false;
+    const spnStatus = document.getElementById('spn-status');
+
+    window.addEventListener('mousedown', function () {
+        spnStatus.innerHTML = '<u>Mouse Status :- <b>Click / Tap</b></u>';
+        mDown = true;
+    });
+
+    window.addEventListener('mouseup', function () {
+        spnStatus.innerHTML = '<u>Mouse Status :- <b>Release / UnTap</b></u>';
+        mDown = false;
+    });
+
+    const fillDiv = document.getElementById('fill-holder');
+
+    fill();
+
+    function reset() {
+        fill();
+    }
+
+    function changeMe(ele) {
+        if (mDown) {
+            const chk = ele.querySelector('input');
+            chk.checked = true;
+            ele.classList.add('active');
+        }
+    }
+
+    function fill() {
+        let html = '<ul>';
+        html += LISTS.map(item => {
+            return `<li class="noselect" onmouseover="changeMe(this)"><input class="chkbx" type="checkbox">${item}</li>`
+        }).join('');
+        html += '</ul>'
+        fillDiv.innerHTML = html;
+    }
+</script>
+</html>
