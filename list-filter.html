@@ -17,11 +17,17 @@
     </style>
 </head>
 <body>
+<div class="main-header">
+    <a href="./fill-number.html">Draw number</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="./incremental-number.html">Incremental Number</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="./list-filter.html">List Filter</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="./selection.html">Selection</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+</div>
 <div style="margin-top: 50px;">
     <div class="container">
 <!--        <button onclick="editStatus()" id="btn-edit" style="margin-left: 205px">Draw</button>-->
         <button onclick="editStatus()" id="btn-edit" style="font-size:20px; margin-left: 205px; transform: scale(-1, 1);">✎</button>
-        <span id="wt" style="display: none; margin-left: 205px">wait...</span>
+        <span id="wt" style="display: none; margin-left: 205px">Loading...</span>
         <div id="name-holder" class="navi"
              style="width: 200px;height: 300px; border: 1px solid; overflow: auto; display: inline-block;"></div>
         <div id="can-holder" class="infoi" style="display: none">
@@ -154,7 +160,7 @@
             canvasId: 'can',
             penColor: 'black',
             minusX: 10,
-            minusY: 50
+            minusY: 50 + 25
         });
 
         const tWorker = Tesseract.createWorker();

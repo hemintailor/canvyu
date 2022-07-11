@@ -17,6 +17,12 @@
     </style>
 </head>
 <body>
+<div class="main-header">
+    <a href="./fill-number.html">Draw number</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="./incremental-number.html">Incremental Number</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="./list-filter.html">List Filter</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+    <a href="./selection.html">Selection</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+</div>
 <div style="margin-top: 50px;">
     <div class="container">
         <div class="navi">
@@ -29,7 +35,7 @@
         </div>
     </div>
     <button onclick="editStatus2()" id="btn-edit2" style="font-size:20px;margin-left: 215px; margin-top: 80px; transform: scale(-1, 1);">✎</button>
-    <span id="wt2" style="display: none; margin-left: 205px; margin-top: 80px">wait...</span>
+    <span id="wt2" style="display: none; margin-left: 205px; margin-top: 80px">Loading...</span>
 </div>
 </body>
 
@@ -51,7 +57,7 @@
             canvasId: 'can2',
             penColor: 'black',
             minusX: 10,
-            minusY: 50
+            minusY: 50 + 25
         });
     });
 
