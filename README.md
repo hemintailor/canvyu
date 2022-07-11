@@ -52,3 +52,9 @@ Here is the simple steps of how the number incremental works
 
 Here is the simple steps of how the Gesture list selection works
 - As I already mentioned in above points, Just set events on the main window for mouse up/down and keep selecting items in list on hover of it when mouse/pen is being tap.
+
+&nbsp;
+
+## Author
+
+[Hemin Tailor](https://github.com/hemintailor) (flyingtailorbird@gmail.com)
