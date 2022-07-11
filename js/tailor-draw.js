@@ -56,14 +56,32 @@ class TailorDraw {
         this.#canvas.addEventListener("mousemove", (e) => {
             this.#findxy('move', e)
         }, false);
+        this.#canvas.addEventListener("touchmove", (e) => {
+            e.clientX = e.touches[0].clientX;
+            e.clientY = e.touches[0].clientY;
+            this.#findxy('move', e)
+        }, false);
+
         this.#canvas.addEventListener("mousedown", (e) => {
             this.#befDownFun(e)
             this.#findxy('down', e)
         }, false);
+        this.#canvas.addEventListener("touchstart", (e) => {
+            e.clientX = e.touches[0].clientX;
+            e.clientY = e.touches[0].clientY;
+            this.#befDownFun(e)
+            this.#findxy('down', e)
+        }, false);
+
         this.#canvas.addEventListener("mouseup", (e) => {
             this.#befUpFun(e);
             this.#findxy('up', e)
         }, false);
+        this.#canvas.addEventListener("touchend", (e) => {
+            this.#befUpFun(e);
+            this.#findxy('up', e)
+        }, false);
+
         this.#canvas.addEventListener("mouseout", (e) => {
             this.#findxy('out', e)
         }, false);

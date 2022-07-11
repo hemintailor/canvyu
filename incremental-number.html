@@ -24,7 +24,7 @@
             <input class="number-arrow-hide" type="number" id="inp-number"
                    style="font-size: 25px;width: 200px;padding: 0 5px; height: 40px; outline: none;">
         </div>
-        <div class="infoi" style="text-align: end;width: 273px">
+        <div class="infoi" style="text-align: end;width: 0; margin-left: 250px;">
             <span class="noselect btn-dragable"
                   style="position: relative; cursor: pointer; margin-top: 1px; padding-bottom: 3px"
                   id="top-drag">︽</span>
@@ -54,13 +54,20 @@
 
     function addListeners() {
         topSpan.addEventListener('mousedown', mouseDownTop, false);
+        topSpan.addEventListener('touchstart', mouseDownTop, false);
+
         bottomSpan.addEventListener('mousedown', mouseDownBottom, false);
+        bottomSpan.addEventListener('touchstart', mouseDownBottom, false);
+
         window.addEventListener('mouseup', mouseUp, false);
+        window.addEventListener('touchend', mouseUp, false);
     }
 
     function mouseUp() {
         window.removeEventListener('mousemove', spanMoveUp, true);
+        window.removeEventListener('touchmove', spanMoveUp, true);
         window.removeEventListener('mousemove', spanMoveDown, true);
+        window.removeEventListener('touchmove', spanMoveDown, true);
         stopChanging();
         intr = null;
         diff = 0;
@@ -84,13 +91,21 @@
 
     function mouseDownTop(e) {
         window.addEventListener('mousemove', spanMoveUp, true);
+        window.addEventListener('touchmove', spanMoveUp, true);
     }
 
     function mouseDownBottom(e) {
         window.addEventListener('mousemove', spanMoveDown, true);
+        window.addEventListener('touchmove', spanMoveDown, true);
     }
 
     function spanMoveUp(e) {
+        if (e.type.includes('touch')) {
+            try {
+                e.clientX = e.touches[0].clientX;
+                e.clientY = e.touches[0].clientY;
+            } catch (e) {}
+        }
         diff = e.clientY - topPos;
         if (diff <= 0 && diff >= -250) {
             diff2 = Number(diff);
@@ -102,6 +117,12 @@
     }
 
     function spanMoveDown(e) {
+        if (e.type.includes('touch')) {
+            try {
+                e.clientX = e.touches[0].clientX;
+                e.clientY = e.touches[0].clientY;
+            } catch (e) {}
+        }
         diff = (e.clientY - bottomPos);
         if (diff >= 0 && diff <= 250) {
             diff2 = Number(diff);
@@ -116,7 +137,7 @@
         const mDiff = Math.abs(diff) / 2;
         ele.style.fontSize = (16 + mDiff) + 'px';
         ele.style.backgroundColor = 'transparent';
-        ele.style.left = ((mDiff / 2)) + 'px'
+        ele.style.left = -((mDiff / 2)) + 'px'
     }
 
     function startChanging() {
@@ -124,7 +145,7 @@
             intr = setInterval(() => {
                 let val = Number(inpNumber.value || 0);
                 val -= (diff2 < -250 ? 250 : (diff2 > 250 ? 250 : diff2));
-                inpNumber.value = val;
+                inpNumber.value = parseInt(val);
             }, 100)
         }
     }
