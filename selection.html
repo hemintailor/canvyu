@@ -67,7 +67,19 @@
         mDown = true;
     });
 
+    window.addEventListener('touchstart', function () {
+        e.preventDefault();
+        spnStatus.innerHTML = '<u>Mouse Status :- <b>Click / Tap</b></u>';
+        mDown = true;
+    });
+
     window.addEventListener('mouseup', function () {
+        spnStatus.innerHTML = '<u>Mouse Status :- <b>Release / UnTap</b></u>';
+        mDown = false;
+    });
+
+    window.addEventListener('touchend', function (e) {
+        e.preventDefault();
         spnStatus.innerHTML = '<u>Mouse Status :- <b>Release / UnTap</b></u>';
         mDown = false;
     });
