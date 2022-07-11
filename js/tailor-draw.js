@@ -57,6 +57,7 @@ class TailorDraw {
             this.#findxy('move', e)
         }, false);
         this.#canvas.addEventListener("touchmove", (e) => {
+            e.preventDefault();
             e.clientX = e.touches[0].clientX;
             e.clientY = e.touches[0].clientY;
             this.#findxy('move', e)
@@ -67,6 +68,7 @@ class TailorDraw {
             this.#findxy('down', e)
         }, false);
         this.#canvas.addEventListener("touchstart", (e) => {
+            e.preventDefault();
             e.clientX = e.touches[0].clientX;
             e.clientY = e.touches[0].clientY;
             this.#befDownFun(e)
@@ -78,6 +80,7 @@ class TailorDraw {
             this.#findxy('up', e)
         }, false);
         this.#canvas.addEventListener("touchend", (e) => {
+            e.preventDefault();
             this.#befUpFun(e);
             this.#findxy('up', e)
         }, false);

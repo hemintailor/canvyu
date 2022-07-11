@@ -100,6 +100,7 @@
     }
 
     function spanMoveUp(e) {
+        e.preventDefault();
         if (e.type.includes('touch')) {
             try {
                 e.clientX = e.touches[0].clientX;
@@ -117,6 +118,7 @@
     }
 
     function spanMoveDown(e) {
+        e.preventDefault();
         if (e.type.includes('touch')) {
             try {
                 e.clientX = e.touches[0].clientX;
