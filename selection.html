@@ -33,14 +33,13 @@
     <a href="./list-filter.html">List Filter</a>&nbsp;&nbsp;|&nbsp;&nbsp;
     <a href="./selection.html">Selection</a>&nbsp;&nbsp;|&nbsp;&nbsp;
 </div>
-<div class="container">
-    <div id="can-holder" class="navi noselect">
+<div>
+    <div id="can-holder" class="noselect">
         <p>It will display status Click when you hold mouse click or keep touched on screen, and display Released when you release mouse click
         <br/><span id="spn-status"><u>Mouse Status :- <b>Released / UnTap</b></u></span></p>
         <input type="button" value="clear" size="23" onclick="reset()" style="">
     </div>
-    <div id="fill-holder" class="infoi"
-         style="width: 425px;display: inline-block;margin-left: 350px;margin-top: 45px;"></div>
+    <div id="fill-holder" style="width: 425px;display: inline-block;margin-left: 350px;margin-top: 45px;"></div>
 </div>
 </body>
 <script>
@@ -67,8 +66,8 @@
         mDown = true;
     });
 
-    window.addEventListener('touchstart', function () {
-        e.preventDefault();
+    window.addEventListener('touchstart', function (e) {
+        // e.preventDefault();
         spnStatus.innerHTML = '<u>Mouse Status :- <b>Click / Tap</b></u>';
         mDown = true;
     });
@@ -79,10 +78,20 @@
     });
 
     window.addEventListener('touchend', function (e) {
-        e.preventDefault();
+        // e.preventDefault();
         spnStatus.innerHTML = '<u>Mouse Status :- <b>Release / UnTap</b></u>';
         mDown = false;
     });
+
+    window.addEventListener('touchmove', (e) => {
+        e.preventDefault();
+        const xPos = e.touches[0].pageX;
+        const yPos = e.touches[0].pageY;
+        const ele = document.elementFromPoint(xPos, yPos);
+        if (ele.tagName === 'LI') {
+            changeMe(ele)
+        }
+    }, { passive: false });
 
     const fillDiv = document.getElementById('fill-holder');
 
@@ -102,8 +111,8 @@
 
     function fill() {
         let html = '<ul>';
-        html += LISTS.map(item => {
-            return `<li class="noselect" onmouseover="changeMe(this)"><input class="chkbx" type="checkbox">${item}</li>`
+        html += LISTS.map((item, inx) => {
+            return `<li class="noselect" id="li-${inx}" onmouseover="changeMe(this)"><input class="chkbx" type="checkbox">${item}</li>`
         }).join('');
         html += '</ul>'
         fillDiv.innerHTML = html;
